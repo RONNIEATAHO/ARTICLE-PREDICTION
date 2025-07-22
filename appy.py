@@ -3,7 +3,8 @@ import nltk
 try:
     nltk.data.find('tokenizers/punkt')
 except LookupError:
-    nltk.download('punkt')
+    # On Streamlit Cloud, do not attempt to download, just raise an error
+    raise RuntimeError("NLTK 'punkt' tokenizer not found and cannot be downloaded in this environment.")
 from rake_nltk import Rake
 from sklearn.feature_extraction.text import TfidfVectorizer
 from rake_nltk import Rake
@@ -284,4 +285,3 @@ if page == "Home":
                                       {"role": "user", "content": chat_prompt}]
                         )
                         st.write(chat_response.choices[0].message.content)
-           
