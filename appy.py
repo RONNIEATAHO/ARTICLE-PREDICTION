@@ -1,10 +1,4 @@
 import nltk
-
-try:
-    nltk.data.find('tokenizers/punkt')
-except LookupError:
-    # On Streamlit Cloud, do not attempt to download, just raise an error
-    raise RuntimeError("NLTK 'punkt' tokenizer not found and cannot be downloaded in this environment.")
 from rake_nltk import Rake
 from sklearn.feature_extraction.text import TfidfVectorizer
 from rake_nltk import Rake
@@ -265,7 +259,7 @@ if page == "Home":
                 if 'article_advice' not in st.session_state:
                     with st.spinner("Generating advice..."):
                         advice_response = client.chat.completions.create(
-                            model="openai/gpt-3.5-turbo",
+                            model="openrouter/openai/gpt-3.5-turbo",
                             messages=[{"role": "system", "content": "You are an expert news editor."},
                                       {"role": "user", "content": advice_prompt}]
                         )
@@ -280,7 +274,7 @@ if page == "Home":
                     chat_prompt = f"You are a helpful news article assistant. Here is the full uploaded article and its extracted features. Answer the user's question about the article.\n\nFeatures Table:\n{features_df.T.to_markdown()}\n\nTitle: {title}\nFull Article:\n{raw_text[:1500]}...\n\nUser Question: {user_question}"
                     with st.spinner("Thinking..."):
                         chat_response = client.chat.completions.create(
-                            model="openai/gpt-3.5-turbo",
+                            model="openrouter/openai/gpt-3.5-turbo",
                             messages=[{"role": "system", "content": "You are a helpful news article assistant."},
                                       {"role": "user", "content": chat_prompt}]
                         )
