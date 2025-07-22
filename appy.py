@@ -183,10 +183,15 @@ def extract_features(title, content):
 
 # --- Main UI ---
 st.sidebar.title("Navigate")
-page = st.sidebar.radio("Go to", ["Home", "Chatbot"])
+page = "Home"
 
 if page == "Home":
     st.title("📰 News Article Popularity Predictor")
+    st.image("images.jpg", use_container_width=True)
+    st.markdown("""
+    Welcome to the News Article Popularity Predictor! Upload your news article and discover how popular it might be before publishing. 
+    This app uses advanced machine learning and sentiment analysis to predict popularity and provides expert advice to help you improve your article for maximum impact.
+    """)
     uploaded_file = st.file_uploader("Upload a news article (.docx or .pdf)", type=["docx", "pdf"])
 
     if uploaded_file is not None:
@@ -267,15 +272,37 @@ if page == "Home":
                 st.subheader("Expert Advice")
                 st.write(st.session_state['article_advice'])
 
-                # Chatbot Q&A about the article
-                st.subheader("Ask a Question About Your Article")
-                user_question = st.text_input("Type your question about the uploaded article:", key="article_question")
-                if user_question:
-                    chat_prompt = f"You are a helpful news article assistant. Here is the full uploaded article and its extracted features. Answer the user's question about the article.\n\nFeatures Table:\n{features_df.T.to_markdown()}\n\nTitle: {title}\nFull Article:\n{raw_text[:1500]}...\n\nUser Question: {user_question}"
-                    with st.spinner("Thinking..."):
-                        chat_response = client.chat.completions.create(
-                            model="openrouter/openai/gpt-3.5-turbo",
-                            messages=[{"role": "system", "content": "You are a helpful news article assistant."},
-                                      {"role": "user", "content": chat_prompt}]
-                        )
-                        st.write(chat_response.choices[0].message.content)
+ 
+
+    # Chatbot Q&A about the article
+    st.subheader("Ask a Question About Your Article")
+    user_question = st.text_input("Type your question about the uploaded article:", key="article_question")
+    if user_question:
+        chat_prompt = f"You are a helpful news article assistant. Here is the full uploaded article and its extracted features. Answer the user's question about the article.\n\nFeatures Table:\n{features_df.T.to_markdown()}\n\nTitle: {title}\nFull Article:\n{raw_text[:1500]}...\n\nUser Question: {user_question}"
+        with st.spinner("Thinking..."):
+            chat_response = client.chat.completions.create(
+                model="openrouter/openai/gpt-3.5-turbo",
+                messages=[{"role": "system", "content": "You are a helpful news article assistant."},
+                          {"role": "user", "content": chat_prompt}]
+            )
+            st.write(chat_response.choices[0].message.content)
+# --- Footer ---
+    st.markdown("---")
+    st.markdown(
+        """
+        <div style='text-align: center; color: gray; padding: 10px;'>
+            <h4>About Us</h4>
+            <p>
+                This News Article Popularity Predictor was developed by 
+                <strong>ATAHO Ronnie</strong> as part of a machine learning project at 
+                Mbarara University of Science and Technology.
+            </p>
+            <p>
+                The tool uses sentiment analysis and a trained LightGBM model to predict 
+                how popular a news article might be. It also leverages AI to suggest improvements for virality.
+            </p>
+            <p>📧 Contact: <a href='mailto:2023bse028@std.must.ac.ug'>2023bse028@std.must.ac.ug</a></p>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
