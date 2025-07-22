@@ -1,9 +1,9 @@
 import nltk
-nltk.data.path.append('/home/atahoronnie/nltk_data')
+
 try:
     nltk.data.find('tokenizers/punkt')
 except LookupError:
-    nltk.download('punkt', download_dir='/home/atahoronnie/nltk_data')
+    nltk.download('punkt')
 from rake_nltk import Rake
 from sklearn.feature_extraction.text import TfidfVectorizer
 from rake_nltk import Rake
