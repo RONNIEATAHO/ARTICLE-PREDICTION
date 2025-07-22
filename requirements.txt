@@ -8,3 +8,4 @@ textblob
 nltk
 joblib
 docx2txt
+PyPDF2
