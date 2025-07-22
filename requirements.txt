@@ -10,3 +10,4 @@ joblib
 docx2txt
 PyPDF2
 beautifulsoup4
+openai
