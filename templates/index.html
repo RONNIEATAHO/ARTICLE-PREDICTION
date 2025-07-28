@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>News Article Popularity Predictor</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .header {
+            display: flex;
+            gap: 20px;
+        }
+        .header img {
+            width: 300px;
+            height: auto;
+            object-fit: cover;
+        }
+        .header .description {
+            flex-grow: 1;
+        }
+        .description h1 {
+            margin-top: 0;
+        }
+        form {
+            margin-top: 30px;
+        }
+        input[type="file"] {
+            margin-bottom: 20px;
+        }
+        .result-section {
+            margin-top: 30px;
+            background: #e6f7ff;
+            padding: 20px;
+            border-left: 5px solid #1890ff;
+        }
+        footer {
+            margin-top: 50px;
+            text-align: center;
+            color: gray;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <img src="/static/images.jpg" alt="News">
+            <div class="description">
+                <h1>📰 News Article Popularity Predictor</h1>
+                <p>Upload your news article and discover how popular it might be <em>before publishing</em>.</p>
+                <ul>
+                    <li>🧠 Sentiment analysis</li>
+                    <li>🔢 Text feature engineering</li>
+                    <li>📈 A trained <strong>LightGBM model</strong></li>
+                </ul>
+                <p>...to predict article popularity and provide <strong>AI-powered advice</strong> to help you improve it.</p>
+            </div>
+        </div>
+
+        <form method="POST" enctype="multipart/form-data">
+            <h3>📤 Upload Your News Article (.docx or .pdf)</h3>
+            <input type="file" name="article" required><br>
+            <button type="submit">Submit</button>
+        </form>
+
+        {% if prediction %}
+        <div class="result-section">
+            <h3>📊 Prediction Result</h3>
+            <p><strong>Predicted Popularity:</strong> {{ prediction.upper() }}</p>
+
+            <h4>Extracted Title</h4>
+            <p>{{ title }}</p>
+            {% if subtitle %}
+            <h4>Extracted Subtitle</h4>
+            <p>{{ subtitle }}</p>
+            {% endif %}
+            <h4>Content Snippet</h4>
+            <p>{{ content }}</p>
+
+            <h4>🧠 Expert Advice</h4>
+            <p>{{ advice }}</p>
+        </div>
+        {% endif %}
+
+        <footer>
+            <h4>About Us</h4>
+            <p>This News Article Popularity Predictor was developed by <strong>ATAHO Ronnie</strong><br>
+            as part of a machine learning project at Mbarara University of Science and Technology.</p>
+            <p>
+                The tool uses sentiment analysis and a trained LightGBM model to predict<br>
+                how popular a news article might be. It also leverages AI to suggest improvements.
+            </p>
+            <p>✉️ Contact: <a href="mailto:2023bse028@std.must.ac.ug">2023bse028@std.must.ac.ug</a></p>
+        </footer>
+    </div>
+</body>
+</html>
